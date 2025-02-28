@@ -1,0 +1,130 @@
+<!--
+ * @Author       : mark
+ * @Date         : 2020-06-30
+ * @copyleft GPL 2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+     <meta charset="UTF-8">
+
+     <title>MARK-首页</title>
+     <link rel="icon" href="images/favicon.ico">
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/animate.css">
+     <link rel="stylesheet" href="css/magnific-popup.css">
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+
+     <!-- Main css -->
+     <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+     <!-- PRE LOADER -->
+     <div class="preloader">
+          <div class="spinner">
+               <span class="spinner-rotate"></span>
+          </div>
+     </div>
+
+
+     <!-- NAVIGATION SECTION -->
+     <div class="navbar custom-navbar navbar-fixed-top" role="navigation">
+          <div class="container">
+
+               <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                    </button>
+                    <!-- lOGO TEXT HERE -->
+                    <a href="/" class="navbar-brand">Mark</a>
+               </div>
+               <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                         <li><a class="smoothScroll" href="/">首页</a></li>
+                         <li><a class="smoothScroll" href="/picture">图片</a></li>
+                         <li><a class="smoothScroll" href="/video">视频</a></li>
+                         <li><a class="smoothScroll" href="/login">登录</a></li>
+                         <li><a class="smoothScroll" href="/register">注册</a></li>
+                         <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#encryptModal">加密</button></li>
+                    </ul>
+               </div>
+
+          </div>
+     </div>
+     <!-- HOME SECTION -->
+     <section id="home">
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-offset-1 col-md-2 col-sm-3">
+                         <img src="images/profile-image.jpg" class="wow fadeInUp img-responsive img-circle"
+                              data-wow-delay="0.2s" alt="about image">
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                         <h1 class="wow fadeInUp" data-wow-delay="0.6s">你好，这是首页。</h1>                    
+                    </div>
+               </div>
+          </div>
+     </section>
+     <!-- ENCRYPT MODAL -->
+     <div class="modal fade" id="encryptModal" tabindex="-1" role="dialog" aria-labelledby="encryptModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <h5 class="modal-title" id="encryptModalLabel">SHA256 加密</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                         </button>
+                    </div>
+                    <div class="modal-body">
+                         <input type="text" class="form-control" id="inputString" placeholder="输入字符串">
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                         <button type="button" class="btn btn-primary" onclick="sendToServer()">加密</button>
+                    </div>
+                    <div class="modal-body">
+                         <p>加密结果：</p>
+                         <pre id="encrypted"></pre>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <!-- SCRIPTS -->
+     <script src="js/jquery.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/smoothscroll.js"></script>
+     <script src="js/jquery.magnific-popup.min.js"></script>
+     <script src="js/magnific-popup-options.js"></script>
+     <script src="js/wow.min.js"></script>
+     <script src="js/custom.js"></script>
+     <script>
+          function sendToServer() {
+               var inputString = document.getElementById("inputString").value;
+               fetch('/encrypt', {
+                    method: 'POST',
+                    headers: {
+                         'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: inputString }),
+               })
+               .then(response => response.json())
+               .then(data => {
+                    document.getElementById("encrypted").textContent = data.encrypted;
+               })
+               .catch((error) => {
+                    console.error('Error:', error);
+               });
+          }
+     </script>
+</body>
+
+</html>
